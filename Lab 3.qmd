@@ -1,11 +1,86 @@
 ---
-title: "Lab 3"
+title: "Linear Regression: Model Specification, Comparison, and Interpretation"
+subtitle: "A worked example using occupational prestige"
+author: "Ali Naeij"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    theme: cosmo
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
 
-## Quarto
+```{r, setup chunk}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(broom)
+library(performance)
+library(gt)
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-```{r}
-1 + 1
+data <- attitude |> select(rating, complaints, learning, raises)
 ```
+
+```{r, Table}
+descriptive.data <-data |>
+  pivot_longer(everything(), names_to = "Variable", values_to = "Value") |>
+  group_by(Variable) |> 
+  summarise(Mean = mean(Value), SD = sd(Value), 
+            Min = min(Value), Max = max(Value)) 
+descriptive.data |> 
+  gt() |> 
+  fmt_number(columns = c(Mean, SD), decimals = 2)
+  
+
+```
+
+```{r, Histogram}
+
+ggplot(data, aes(x = rating)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 10,
+                 fill = "grey50", colour = "white") +
+  geom_density(linewidth = 1) +
+  labs(x = "Overall rating (% favourable)", y = "Density")
+```
+
+```{r, Scatterplots}
+
+ggplot(data, aes(x = complaints, y = rating)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Complaint handling (% favourable)", y = "Overall rating")
+
+ggplot(data, aes(x = raises, y = rating)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Raises (% favourable)", y = "Overall rating")
+
+ggplot(data, aes(x = learning, y = rating)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Learning (% favourable)", y = "Overall rating")
+
+ggplot(data, aes(x = complaints, y = rating)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(x = "Complaint handling (% favourable)", y = "Overall rating")
+```
+
+### Exploring the Data
+
+The attitude dataset summarizes survey responses from clerical employees in 30 departments of a financial organization. Each variable is the percentage of a department's employees responding favourably. The outcome of interest is the overall job rating (`rating`), and the predictors of interest are `complaints` (how employee complaints are handled), `learning` (opportunity to learn), and `raises` (raises provided based on performance).
+
+The lowest reported overall rating by any department was 40%, and the highest was 85%, with ratings centred around 65%. The distribution had a single main peak with a slightly longer lower tail, and no department fell far outside the range of the others.
+
+All predictors were positively associated with overall rating, and the relationships appeared approximately linear. Complaint handling showed the strongest relationship, with points clustered tightly around the fitted line. Learning and raises were more scattered. This matches my expectation that complaint handling, which reflects how supervisors respond to everyday problems, would be more closely tied to overall ratings than learning or raises. Two departments stood out. Department 24 had the lowest overall rating (40%) and the lowest complaint-handling score (37%), but it fell close to the complaints trend line, so it was extreme without departing from the overall pattern. Department 26 reported the most favourable view of raises (88%) but only an average overall rating (66%), placing it well below the fitted line for raises. Neither appeared extreme enough to suggest a data error, but both are worth monitoring in the regression diagnostics.
+
+### Predictions
+
+**Why would complaint handling be tied to how people rate their job overall?**
+Complaint handling is a good measure of how supervisors treat employees on a daily basis, if problems are listened to and solved, it stands to reason that employees would feel more valued and appreciated, thus experiencing greater satisfaction and higher overall ratings. Complaint handling also tends to occur more frequently, unlike raises or learning opportunities, which would happen less frequently. 
