@@ -1,5 +1,4 @@
 project:
   title: "Lab 3"
-
-editor: visual
-
+  type: website
+  output-dir: docs

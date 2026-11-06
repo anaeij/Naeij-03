@@ -295,21 +295,20 @@ reasonably satisfied. The residuals showed no systematic curvature
 across fitted values, supporting a linear specification. The Q-Q plot
 indicated approximately normally distributed residuals. The variance of
 the residuals was not perfectly uniform, since the departments with
-lower predicted ratings showed greater spread than those with
-higher predicted ratings, although the formal test did not detect
-significant heteroscedasticity (p = 0.107). No department exceeded the
-threshold for influential observations. Department 24, previously
-identified as having the lowest overall rating and complaint-handling
-score, had the highest leverage, but since it also had small residual, it
-did not exert undue influence on the fitted model. Multicollinearity was
-low (VIF = 1.55 for both predictors), indicating that, although 
-complaint handling and learning are correlated, their unique
-contributions could still be estimated with reasonable precision.
-Overall, these results suggest that we can have confidence in the
-estimated coefficients. However, with only 30 departments, the
-diagnostic tests have limited power to detect violations, and that
-p-values close to the significance threshold, (e.g. learning), should be
-interpreted with caution.
+lower predicted ratings showed greater spread than those with higher
+predicted ratings, although the formal test did not detect significant
+heteroscedasticity (p = 0.107). No department exceeded the threshold for
+influential observations. Department 24, previously identified as having
+the lowest overall rating and complaint-handling score, had the highest
+leverage, but since it also had small residual, it did not exert undue
+influence on the fitted model. Multicollinearity was low (VIF = 1.55 for
+both predictors), indicating that, although complaint handling and
+learning are correlated, their unique contributions could still be
+estimated with reasonable precision. Overall, these results suggest that
+we can have confidence in the estimated coefficients. However, with only
+30 departments, the diagnostic tests have limited power to detect
+violations, and that p-values close to the significance threshold, (e.g.
+learning), should be interpreted with caution.
 
 ## Model Selection
 
@@ -358,8 +357,8 @@ p_learn  <- coefs |> filter(term == "learning") |> pull(p.value)
 
 Holding learning opportunities constant, complaint handling was
 positively associated with overall rating: each 1 percentage-point
-increase in complaint-handling responses was associated with
-a `r round(b_comp, 2)`-point higher overall rating (95%
+increase in complaint-handling responses was associated with a
+`r round(b_comp, 2)`-point higher overall rating (95%
 CI:`r round(lo_comp, 2)` to `r round(hi_comp, 2)`). For example, a
 department scoring 10 points higher on complaint handling would be
 expected to have an overall rating about `r round(b_comp * 10, 1)`
@@ -368,13 +367,13 @@ relatively narrow, the data provide clear evidence of a positive
 association.
 
 Holding complaint handling constant, each one-percentage-point increase
-in learning responses was associated with a
-`r round(b_learn, 2)`-point higher overall rating (95% CI:
-`r round(lo_learn, 2)` to `r round(hi_learn, 2)`; p =
-`r round(p_learn, 3)`). The estimate is positive, but the confidence
-interval includes zero. This would meant that the data are consistent with anything from no
-association to a moderately positive association. Learning's unique contribution
-is therefore uncertain.
+in learning responses was associated with a `r round(b_learn, 2)`-point
+higher overall rating (95% CI: `r round(lo_learn, 2)` to
+`r round(hi_learn, 2)`; p = `r round(p_learn, 3)`). The estimate is
+positive, but the confidence interval includes zero. This would meant
+that the data are consistent with anything from no association to a
+moderately positive association. Learning's unique contribution is
+therefore uncertain.
 
 The intercept represents the predicted rating for a department with 0%
 favourable responses on both predictors. No department in the data is
@@ -403,9 +402,10 @@ important of the three factors for overall workplace ratings. It
 accounted for the large majority of explained variation, and its
 association with rating remained strong and precisely estimated after
 adjusting for learning opportunities. Learning may make a small
-additional contribution, but its  association with rating was small and statistically uncertain. Pay increases contributed essentially
-nothing once complaint handling and learning were included. This does
-not mean that raises are unrelated to ratings, since raises correlated
+additional contribution, but its association with rating was small and
+statistically uncertain. Pay increases contributed essentially nothing
+once complaint handling and learning were included. This does not mean
+that raises are unrelated to ratings, since raises correlated
 substantially with rating on its own (r = 0.59). Rather, the information
 raises provides appears to overlap with what complaint handling and
 learning already capture. These conclusions also depend partly on the
@@ -413,17 +413,17 @@ order in which predictors were entered: because complaint handling was
 entered first, it received credit for variance it shares with the other
 predictors.
 
-Several limitations should be taken into consideration. With only 30 departments, the
-analysis had limited power to detect small effects, so the
-non-significant contribution of learning should not be read as evidence
-of no effect. The data are department-level summaries, so the findings
-describe departments rather than individual employees and should not be
-used to draw conclusions about individual attitudes. The design is
-cross-sectional and correlational, which precludes causal conclusions;
-for example, departments with more satisfied employees may also perform
-better and receive more raises, rather than raises producing
-satisfaction. Because all variables come from the same survey, a general
-tendency to respond favourably could inflate the associations among
-them. Finally, the data come from clerical employees in a single
+Several limitations should be taken into consideration. With only 30
+departments, the analysis had limited power to detect small effects, so
+the non-significant contribution of learning should not be read as
+evidence of no effect. The data are department-level summaries, so the
+findings describe departments rather than individual employees and
+should not be used to draw conclusions about individual attitudes. The
+design is cross-sectional and correlational, which precludes causal
+conclusions; for example, departments with more satisfied employees may
+also perform better and receive more raises, rather than raises
+producing satisfaction. Because all variables come from the same survey,
+a general tendency to respond favourably could inflate the associations
+among them. Finally, the data come from clerical employees in a single
 organization collected several decades ago, which limits how far the
 results generalize to other workplaces.
